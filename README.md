@@ -12,7 +12,7 @@ sensor. The firmware is stored on a 16 MiB `GD25Q127C` SPI NOR flash.
 
 ## Firmware
 
-The firmware is based on Novatek's reference board Linux system (U-Boot 2014.07 and kernel 4.1.0). See [U-Boot bootloader](log-u-boot.txt) and [Linux misc](log-linux.txt) logfiles for more details.
+The firmware is based on Novatek's reference board Linux system (`U-Boot 2014.07`, `kernel 4.1.0` and a Linux system based on `Buildroot 2015.11.1-00003-gfd1edb1`). See [U-Boot bootloader](log-u-boot.txt) and [Linux misc](log-linux.txt) logfiles for more details.
 
 Firmware `RLC-410-5MP_448_19061407` can be downloaded from Reolinks website. With [unpack-reolink-firmware.sh](unpack-reolink-firmware.sh) one can download the firmware file and extract the root filesystem:
 
