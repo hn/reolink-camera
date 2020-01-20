@@ -10,11 +10,21 @@ The Reolink RLC-410-5MP is a 2560x1920 pixel IP camera with infrared night visio
 The camera uses a `Novatek NV98515` SoC (MIPS 24KEc V5.5 architecture) with a `Omnivision OS05A10M` image
 sensor. The firmware is stored on a 16 MiB `GD25Q127C` SPI NOR flash.
 
+### Serial port
+
+There is a `115200 8-N-1` serial port accessible via `J9`:
+
+![Serial port](https://github.com/hn/reolink-camera/blob/master/reolink-rlc-410-5mp-serial.jpg "Reolink RLC-410-5MP serial port")
+
 ## Firmware
 
-The firmware is based on Novatek's reference board Linux system (`U-Boot 2014.07`, `kernel 4.1.0` and a Linux system based on `Buildroot 2015.11.1-00003-gfd1edb1`). See [U-Boot bootloader](log-u-boot.txt) and [Linux misc](log-linux.txt) logfiles for more details.
+The firmware is based on Novatek's evaluation board (`U-Boot 2014.07`, `kernel 4.1.0` and a Linux system based on `Buildroot 2015.11.1-00003-gfd1edb1`). See [U-Boot bootloader](log-u-boot.txt) and [Linux misc](log-linux.txt) logfiles for more details.
 
-Firmware `RLC-410-5MP_448_19061407` can be downloaded from Reolinks website. With [unpack-reolink-firmware.sh](unpack-reolink-firmware.sh) one can download the firmware file and extract the root filesystem:
+It _seems_ that there is a µITRON-compatible eCos-RTOS running on CPU1, and Linux running on CPU2 (`-D_CPU1_UITRON -D_CPU2_LINUX`).
+
+### Unpack firmware
+
+Firmware `RLC-410-5MP_448_19061407` is available from Reolink's support website. With [unpack-reolink-firmware.sh](unpack-reolink-firmware.sh) one can download the firmware file and extract the root filesystem:
 
 ```
 $ ./unpack-reolink-firmware.sh 
@@ -42,10 +52,4 @@ bin  dev  etc  home  lib  linuxrc  mnt  proc  root  sbin  sys  tmp  usr  var
 SDK_VER="NVT_NT96660_Linux_V0.4.8"
 BUILDDATE="Tue Mar 1 18:25:28 CST 2016"
 ```
-
-## Serial port
-
-There is a `115200 8-N-1` serial port accessible via `J9`:
-
-![Serial port](https://github.com/hn/reolink-camera/blob/master/reolink-rlc-410-5mp-serial.jpg "Reolink RLC-410-5MP serial port")
 
