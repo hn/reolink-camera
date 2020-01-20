@@ -1,0 +1,54 @@
+root@NVTEVM:~$ uname -a
+Linux NVTEVM 4.1.0 #1 PREEMPT Tue Feb 26 18:19:48 CST 2019 mips GNU/Linux
+
+root@NVTEVM:~$ cat /proc/cpuinfo
+system type             : NVT NA51023
+machine                 : Novatek NA51023 evaluation board
+processor               : 0
+cpu model               : MIPS 24KEc V5.5
+BogoMIPS                : 643.80
+wait instruction        : yes
+microsecond timers      : yes
+tlb_entries             : 32
+extra interrupt vector  : yes
+hardware watchpoint     : yes, count: 4, address/irw mask: [0x0ffc, 0x0ffc, 0x0ffb, 0x0ffb]
+isa                     : mips1 mips2 mips32r1 mips32r2
+ASEs implemented        : mips16 dsp
+shadow register sets    : 2
+kscratch registers      : 0
+package                 : 0
+core                    : 0
+VCED exceptions         : not available
+VCEI exceptions         : not available
+
+root@NVTEVM:~$ lsmod
+mmc_na51023 21573 0 - Live 0xe02d4000
+mmc_block 27392 0 - Live 0xe02be000
+mmc_core 106342 2 mmc_na51023,mmc_block, Live 0xe028e000
+nvt_isp510 305861 1 - Live 0xe0212000 (O)
+nvt_gmi 25309 1 - Live 0xe019e000 (O)
+nvt_pstore 10773 0 - Live 0xe018d000 (O)
+nvt_stream_snd 18974 10 - Live 0xe017f000 (O)
+nvt_stream_rcv 4857 0 - Live 0xe0172000 (O)
+ntkimethmac 87909 0 - Live 0xe0153000 (O)
+nvt_uctrl 11393 2 - Live 0xe012d000 (O)
+
+root@NVTEVM:~$ netstat -lpn
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:1935            0.0.0.0:*               LISTEN      712/
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      712/
+tcp        0      0 0.0.0.0:6001            0.0.0.0:*               LISTEN      557/dvr
+tcp        0      0 127.0.0.1:9527          0.0.0.0:*               LISTEN      684/api.cgi
+tcp        0      0 0.0.0.0:443             0.0.0.0:*               LISTEN      712/
+tcp        0      0 0.0.0.0:8000            0.0.0.0:*               LISTEN      557/dvr
+tcp        0      0 0.0.0.0:9000            0.0.0.0:*               LISTEN      557/dvr
+tcp        0      0 0.0.0.0:554             0.0.0.0:*               LISTEN      557/dvr
+udp        0      0 0.0.0.0:2000            0.0.0.0:*                           557/dvr
+udp        0      0 0.0.0.0:2009            0.0.0.0:*                           557/dvr
+udp        0      0 239.255.255.250:3702    0.0.0.0:*                           557/dvr
+udp        0      0 127.0.0.1:5000          0.0.0.0:*                           557/dvr
+Active UNIX domain sockets (only servers)
+Proto RefCnt Flags       Type       State         I-Node PID/Program name    Path
+unix  2      [ ACC ]     STREAM     LISTENING       1858 711/cloudstorage    /var/unix_cloud_socket
+

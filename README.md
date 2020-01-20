@@ -7,12 +7,12 @@ The Reolink RLC-410-5MP is a 2560x1920 pixel IP camera with infrared night visio
 
 ## Hardware
 
-The camera uses a `Novatek NV98515` SoC with a `Omnivision OS05A10M` image
-sensor. The firmware is stored on a 16 MiB GD25Q127C SPI NOR flash.
+The camera uses a `Novatek NV98515` SoC (MIPS 24KEc V5.5 architecture) with a `Omnivision OS05A10M` image
+sensor. The firmware is stored on a 16 MiB `GD25Q127C` SPI NOR flash.
 
 ## Firmware
 
-The firmware is based on Novatek's reference board linux system (U-Boot 2014.07 and kernel 4.1.0).
+The firmware is based on Novatek's reference board Linux system (U-Boot 2014.07 and kernel 4.1.0). See [U-Boot bootloader](log-u-boot.txt) and [Linux misc](log-linux.txt) logfiles for more details.
 
 ## Serial port
 

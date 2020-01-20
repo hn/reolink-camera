@@ -1,0 +1,109 @@
+
+U-Boot 2014.07 (Feb 26 2019 - 18:20:07)
+
+Welcome to uboot
+DRAM:  59 MiB
+MMC:   NVT_MMC0: 0
+Using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+SPI:   id =  0xc8 0x40 0x18 0xc8 0x00
+Use default table
+GD25Q127C with page size 256 Bytes, erase size 64 KiB, total 16 MiB
+Firmware name: FW98515A.bin FW98515T.bin FW98515A.ext.bin
+nvt_detect_fw_tbin Boot from flash
+Open SD fail: No SD device?
+nvt_detect_fw_tbin Boot from flash
+=>run cmd : sf read 3cff000 10000 1000
+SF: 4096 bytes @ 0x10000 Read: OK
+Find MODELEXT at flash
+pinmux init
+iocfg init
+intdir init
+Reset_para:2495
+Hit any key to stop autoboot:  0
+NA51023>
+
+NA51023> printenv
+baudrate=115200
+bootargs=earlyprintk console=ttyS0,115200 rootwait rootfstype=squashfs ro  mtdparts=spi_nor.0:0x10000@0x0(loader),0x10000@0x10000(modelext),0x3a0000@0x20000(uitron),0x50000@0x3c0000(uboot),0x10000@0x410000(uenv),0x2c0000@0x420000(linux),0x840000@0x6e0000(rootfs),0xc0000@0xf20000(para),0x20000@0xfe0000(sp),0x1000000@0x0(all)  root=/dev/mtdblock6
+bootcmd=nvt_boot;nvt_bootm
+bootdelay=1
+ethaddr=0a:0b:0c:0d:0e:01
+gatewayip=192.168.1.254
+hostname=soclnx
+ipaddr=192.168.1.99
+mtdids=sf0=spi_nor.0
+mtdparts=mtdparts=spi_nor.0:0x10000@0x0(loader),0x10000@0x10000(modelext),0x3a0000@0x20000(uitron),0x50000@0x3c0000(uboot),0x10000@0x410000(uenv),0x2c0000@0x420000(linux),0x840000@0x6e0000(rootfs),0xc0000@0xf20000(para),0x20000@0xfe0000(sp),0x1000000@0x0(all)
+netmask=255.255.255.0
+serverip=192.168.1.11
+stderr=serial
+stdin=serial
+stdout=serial
+
+Environment size: 886/8188 bytes
+
+NA51023> mtdparts
+
+device sf0 <spi_nor.0>, # parts = 10
+ #: name                size            offset          mask_flags
+ 0: all                 0x01000000      0x00000000      0
+ 1: loader              0x00010000      0x00000000      0
+ 2: modelext            0x00010000      0x00010000      0
+ 3: uitron              0x003a0000      0x00020000      0
+ 4: uboot               0x00050000      0x003c0000      0
+ 5: uenv                0x00010000      0x00410000      0
+ 6: linux               0x002c0000      0x00420000      0
+ 7: rootfs              0x00840000      0x006e0000      0
+ 8: para                0x000c0000      0x00f20000      0
+ 9: sp                  0x00020000      0x00fe0000      0
+
+NA51023> sf probe 0 0 0
+id =  0xc8 0x40 0x18 0xc8 0x00
+Use default table
+GD25Q127C with page size 256 Bytes, erase size 64 KiB, total 16 MiB
+
+NA51023> help
+?       - alias for 'help'
+base    - print or set address offset
+bootm   - boot application image from memory
+bootp   - boot image via network using BOOTP/TFTP protocol
+chpart  - change active partition
+cmp     - memory compare
+cp      - memory copy
+crc32   - checksum calculation
+dhcp    - boot image via network using DHCP/TFTP protocol
+env     - environment handling commands
+eth_init- ethernet init
+fatinfo - print information about filesystem
+fatload - load binary file from a dos filesystem
+fatls   - list files in a directory (default /)
+go      - start application at address 'addr'
+help    - print command description/usage
+loop    - infinite loop on address range
+md      - memory display
+mm      - memory modify (auto-incrementing address)
+mmc     - MMC sub system
+mmcinfo - display MMC info
+mtdparts- define flash/nand partitions
+mw      - memory write (fill)
+nm      - memory modify (constant address)
+nvt_boot- To do nvt platform boot init.
+nvt_bootd- nvt_bootd     - Loading dsp and boot dsp (Without Linux).
+
+nvt_booti- nvt_booti     - Loading itron and boot itron (Without Linux).
+
+nvt_bootm- nvt_bootm     - bootm Linux.
+
+nvt_update_all- To Update all-in-one image from memory address and size
+
+ping    - send ICMP ECHO_REQUEST to network host
+printenv- print environment variables
+reset   - Perform RESET of the CPU
+setenv  - set environment variables
+sf      - SPI flash sub-system
+tftpboot- boot image via network using TFTP protocol
+version - print monitor, compiler and linker version
+NA51023>
