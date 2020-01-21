@@ -3,24 +3,23 @@
 ## Preamble
 The Reolink RLC-410-5MP is a 2560x1920 pixel IP camera with infrared night vision, motion detection and PoE support.
 
-![Camera casing](https://github.com/hn/reolink-camera/blob/master/reolink-rlc-410-5mp-case.jpg "Reolink RLC-410-5MP case")
+![Camera casing](reolink-rlc-410-5mp-case.jpg "Reolink RLC-410-5MP case")
 
 ## Hardware
 
-The camera uses a `Novatek NV98515` SoC (MIPS 24KEc V5.5 architecture) with a `Omnivision OS05A10M` image
-sensor. The firmware is stored on a 16 MiB `GD25Q127C` SPI NOR flash.
+The camera uses a [Novatek NV98515](http://www.novatek.com.tw/en-global/) SoC (MIPS 24KEc V5.5 architecture) with a [Omnivision OS05A10M](https://www.ovt.com/sensors/OS05A10) image sensor. The firmware is stored on a 16 MiB [GD25Q127C](https://www.gigadevice.com/datasheet/gd25q127c/) [SPI](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface) [NOR flash](https://en.wikipedia.org/wiki/Flash_memory#NOR_flash).
 
 ### Serial port
 
 There is a `115200 8-N-1` serial port accessible via `J9`:
 
-![Serial port](https://github.com/hn/reolink-camera/blob/master/reolink-rlc-410-5mp-serial.jpg "Reolink RLC-410-5MP serial port")
+![Serial port](reolink-rlc-410-5mp-serial.jpg "Reolink RLC-410-5MP serial port")
 
 ## Firmware
 
-The firmware is based on Novatek's evaluation board (`U-Boot 2014.07`, `kernel 4.1.0` and a Linux system based on `Buildroot 2015.11.1-00003-gfd1edb1`). See [U-Boot bootloader](log-u-boot.txt) and [Linux misc](log-linux.txt) logfiles for more details.
+The firmware is based on Novatek's NVT evaluation board SDK (`U-Boot 2014.07`, `kernel 4.1.0` and a Linux base system based on [Buildroot 2015.11.1-00003-gfd1edb1](https://buildroot.org/)). See [U-Boot bootloader](log-u-boot.txt) and [Linux misc](log-linux.txt) logfiles for more details.
 
-It _seems_ that there is a µITRON-compatible eCos-RTOS running on CPU1, and Linux running on CPU2 (`-D_CPU1_UITRON -D_CPU2_LINUX`).
+There is a [µITRON](https://en.wikipedia.org/wiki/ITRON_project)-compatible [eCos-RTOS](https://en.wikipedia.org/wiki/ECos) running on CPU1 (probably doing the video encoding work), and Linux running on CPU2 (`-D_CPU1_UITRON -D_CPU2_LINUX`).
 
 ### Unpack firmware
 
@@ -52,4 +51,13 @@ bin  dev  etc  home  lib  linuxrc  mnt  proc  root  sbin  sys  tmp  usr  var
 SDK_VER="NVT_NT96660_Linux_V0.4.8"
 BUILDDATE="Tue Mar 1 18:25:28 CST 2016"
 ```
+
+### Extend firmware
+
+Download [Buildroot 2015.11.1](https://buildroot.org/downloads/buildroot-2015.11.1.tar.gz)
+(I suggest to choose version 2015.11.1 as Novatek's SDK uses this as well).
+Exec `make menuconfig`, select `Target options`, change `Target Architecture`
+to `MIPS (little endian)` and `Target Architecture Variant` to `mips 32`.
+Select `Target packages` in the main menu and select packages as needed.
+Exit and `make`.
 
