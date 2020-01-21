@@ -21,6 +21,10 @@ The firmware is based on Novatek's NVT evaluation board SDK (`U-Boot 2014.07`, `
 
 There is a [µITRON](https://en.wikipedia.org/wiki/ITRON_project)-compatible [eCos-RTOS](https://en.wikipedia.org/wiki/ECos) running on CPU1 (probably doing the video encoding work), and Linux running on CPU2 (`-D_CPU1_UITRON -D_CPU2_LINUX`).
 
+Novatek does not release any information about their products. One can find
+some brief [datasheet of the NT96650](https://dashcamtalk.com/cams/mobius/Novatek%20NT96650.pdf)
+and some [discussion and tools at GoPrawn forum](https://www.goprawn.com/forum/novatek-cams).
+
 ### Unpack firmware
 
 Firmware `RLC-410-5MP_448_19061407` is available from Reolink's support website. With [unpack-reolink-firmware.sh](unpack-reolink-firmware.sh) one can download the firmware file and extract the root filesystem:
