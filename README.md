@@ -70,3 +70,8 @@ to `MIPS (little endian)` and `Target Architecture Variant` to `mips 32`.
 Select `Target packages` in the main menu and select packages as needed.
 Exit and `make`.
 
+### Misc
+
+With `get_sysinfo` debug information about the various video streams
+is displayed, see [sample output](log-get_sysinfo.txt).
+

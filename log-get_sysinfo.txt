@@ -1,0 +1,76 @@
+root@NVTEVM:~$ get_sysinfo
+
+[Environment]
+  Sensor     : CMOS_OS05A10M
+  Display    : TV_OFF
+  Emb.Mem    : EMBMEM_SPI_NOR
+  FD FaceScale: N/A (FD_FUNC is off)
+  Features   : PRODUCT(5) DIRECT_MODE(1) NEW_TRIGGER(0) BUF_LEVEL(1)
+               DISP_WAIT(0) DIS(0) MD_FUNC(1) SMARTROI_FUNC(0) VQA_FUNC(0)
+               PD_FUNC(0) FD_FUNC(0) AEC_FUNC(1) ANR_FUNC(1) LTR_FUNC(0)
+               WDR_FUNC(1) HDR_FUNC(0) FTG_FUNC(0) 3DNR_FUNC(1) TMNR_FUNC(1)
+  DDR-0 on uitron:  addr(0x448b67a0) size(0x03749840) free(0x00574760) max_free_block(0x005746b0)
+  Dram Partition:      Address           Size
+          Linux  -  0x00900000     0x03400000
+          uItron -  0x04400000     0x03c00000
+          DSP    -  0x00101000     0x007ff000
+  Max. buffer time : video:4000(ms), audio in:1000(ms), audio out:1000(ms)
+  uItron Build Date: May 27 2019,15:35:10
+  gmlib  Build Date: Jun 11 2019,19:08:29
+
+[Video Input]      (IME/FrontEnd)  Max.                               Buf
+ vch -  Width Height  Framerate  Bitrate - Sensor  IME   MD Compress  Cnt  TMNR - Feature
+----------------------------------------------------------------------------------
+   0 -  2560   1920       30/30     9600 -      0    0  off        0    1    ON - Encode Only
+   2 -  1920   1080       30/30     4096 -      0    2   on        0    3    ON - Encode Only
+   3 -   640    480       30/30      512 -      0    2   on        0    3    ON - Encode Only
+   4 -   640    480       30/30      512 -      0    1  off        0    3    ON - Encode Only
+
+
+[Video Output]
+ vch -  width  height  vout_id
+----------------------------------------------------------------------------------
+   0 -    720     576        0
+
+
+[Audio Input] - format(PCM/AAC/ALAW/ULAW)
+  vch :  description
+----------------------------------------------------------------------------------
+    0 - sample rate(8000/11025/12000/16000)
+      - sample size(16bit)
+      - channel(left/right/stereo)
+
+
+[Audio Output] - format(PCM/ALAW/ULAW)
+  vch :  description
+----------------------------------------------------------------------------------
+    0 - sample rate(8000/11025/12000/16000)
+      - sample size(16bit)
+      - channel(left/right/stereo)
+
+  # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+[Current Encode Settings]
+ vch -  Format  Width Height Fps - BRCType    3DNR  Rotate
+----------------------------------------------------------------------------------
+  0 -     H264   2048   1536  6 -     CBR     ON    None
+  2 -     H264    896    672  25 -     CBR     ON    None
+  3 -     H264    640    480  6 -     CBR     ON    None
+  4 -     H264    640    480  6 -     CBR     ON    None
+
+[Current Sensor Settings]
+ Sensor -  NR2D  NR3D   Mirror  Flip - Sharpness
+----------------------------------------------------------------------------------
+      0 -    50     1        1     1          30
+
+[Current Ain Settings]
+  vch :    sr  bit  channels  fmt  - ANR(  db/ hpf/bias) - (src,vol,duplex)
+----------------------------------------------------------------------------------
+    0 : 16000  16   Left      AAC  -  ON(  10/ 150/   9) - (Line-in,0,Full)
+
+[Current Aout Settings]
+  vch :    sr  bit  channels  fmt  - AEC(leak/noise/echo/frame) - (src,vol)
+----------------------------------------------------------------------------------
+    0 : 16000  16   Stereo    PCM  - OFF(0,99/ -30/ -60/ 128) - (Speaker,64)
+
+root@NVTEVM:~$
