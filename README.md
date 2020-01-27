@@ -106,6 +106,7 @@ Number of ids 1
 -rw-r--r-- 1 8650752 Jan 27 13:01 mtdblock6.bin
 -rw-r--r-- 1 6352896 Jan 27 16:36 mtdblock6-NEW.bin
 mtdblock6-NEW.bin file size (65536-byte aligned): 0x610000
+
 Execute the following commands within u-boot:
 
 fatload mmc 0 0x1000000 mtdblock6-NEW.bin
@@ -114,7 +115,8 @@ sf write 0x1000000 0x6e0000 0x610000
 reset
 ```
 
-Then write the modified squashfs to NOR flash of your camera:
+Then write the modified squashfs to NOR flash of your camera as shown in
+script output:
 
 ```
 NA51023> fatload mmc 0 0x1000000 mtdblock6-NEW.bin

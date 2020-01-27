@@ -50,6 +50,10 @@ fakeroot -s $FRSAVE unsquashfs -d $OUTDIR $MTDFILE
 fakeroot -i $FRSAVE -s $FRSAVE cp -v $CONTRIB/dropbear $OUTDIR/usr/sbin/
 fakeroot -i $FRSAVE -s $FRSAVE cp -v $CONTRIB/S99dropbear $OUTDIR/etc/init.d/
 fakeroot -i $FRSAVE -s $FRSAVE chown -v --reference=$OUTDIR/etc $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear
+for LINK in dbclient dropbearconvert dropbearkey scp ssh; do
+	fakeroot -i $FRSAVE -s $FRSAVE ln -sv ../sbin/dropbear $OUTDIR/usr/bin/$LINK
+	fakeroot -i $FRSAVE -s $FRSAVE chown -v -h --reference=$OUTDIR/etc $OUTDIR/usr/bin/$LINK
+done
 fakeroot -i $FRSAVE -s $FRSAVE chmod 0777 $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear
 
 # remove comment to set root password
