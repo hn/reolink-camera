@@ -2,6 +2,11 @@
 
 ## Preamble
 The Reolink RLC-410-5MP is a 2560x1920 pixel IP camera with infrared night vision, motion detection and PoE support.
+The hardware of the camera is quite good (well designed metal casing, multi-layer PCB with high soldering quality).
+The software is bad (requiring Flash Player is not acceptable under any circumstances), but not as bad as other cameras I've seen before.
+The camera [offers](https://reolink.com/wp-content/uploads/2017/01/Reolink-CGI-command-v1.61.pdf)
+[RTMP](https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol) and [RTSP](https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol) video
+streams. The RTSP stream suffers from various problems ("melting" and "smearing").
 
 ![Camera casing](reolink-rlc-410-5mp-case.jpg "Reolink RLC-410-5MP case")
 
@@ -21,7 +26,7 @@ The firmware is based on Novatek's NVT evaluation board SDK (`U-Boot 2014.07`, `
 
 There is a [µITRON](https://en.wikipedia.org/wiki/ITRON_project)-compatible [eCos-RTOS](https://en.wikipedia.org/wiki/ECos) running on CPU1 (probably doing the video encoding work), and Linux running on CPU2 (`-D_CPU1_UITRON -D_CPU2_LINUX`).
 
-Novatek does not release any information about their products. One can find
+Novatek does not release _any_ information about their products. One can find
 some brief [datasheet of the NT96650](https://dashcamtalk.com/cams/mobius/Novatek%20NT96650.pdf)
 and some [discussion and tools at GoPrawn forum](https://www.goprawn.com/forum/novatek-cams).
 
