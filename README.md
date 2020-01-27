@@ -61,7 +61,7 @@ SDK_VER="NVT_NT96660_Linux_V0.4.8"
 BUILDDATE="Tue Mar 1 18:25:28 CST 2016"
 ```
 
-### Extend firmware
+### Compile additional software
 
 Download [Buildroot 2015.11.1](https://buildroot.org/downloads/buildroot-2015.11.1.tar.gz)
 (I suggest to choose version 2015.11.1 as Novatek's SDK uses this as well).
@@ -69,6 +69,65 @@ Exec `make menuconfig`, select `Target options`, change `Target Architecture`
 to `MIPS (little endian)` and `Target Architecture Variant` to `mips 32`.
 Select `Target packages` in the main menu and select packages as needed.
 Exit and `make`.
+
+### Extend rootfs / add SSH daemon
+
+Use `repack-reolink-rootfs.sh` to repack the rootfs on flash partition 6.
+Dump squashfs with `cat /dev/mtdblock6 > /mnt/sda/mtdblock6.bin` to SD card
+first. Then execute the script on your Linux workstation like this:
+
+```
+$ ./repack-reolink-rootfs.sh
+551 inodes (622 blocks) to write
+created 416 files
+created 82 directories
+created 135 symlinks
+created 0 devices
+created 0 fifos
+'./contrib/dropbear' -> 'rootfs/usr/sbin/dropbear'
+'./contrib/S99dropbear' -> 'rootfs/etc/init.d/S99dropbear'
+changed ownership of 'rootfs/usr/sbin/dropbear' from root:root to 1004:1004
+changed ownership of 'rootfs/etc/init.d/S99dropbear' from root:root to 1004:1004
+Found a valid SQUASHFS 4:0 superblock on mtdblock6-NEW.bin.
+Creation or last append time Mon Jan 27 16:42:00 2020
+Filesystem size 6201.27 Kbytes (6.06 Mbytes)
+Compression xz
+Block size 262144
+Filesystem is exportable via NFS
+Inodes are compressed
+Data is compressed
+Fragments are compressed
+Always-use-fragments option is not specified
+Xattrs are compressed
+Duplicates are removed
+Number of fragments 23
+Number of inodes 635
+Number of ids 1
+-rw-r--r-- 1 8650752 Jan 27 13:01 mtdblock6.bin
+-rw-r--r-- 1 6352896 Jan 27 16:36 mtdblock6-NEW.bin
+mtdblock6-NEW.bin file size (65536-byte aligned): 0x610000
+Execute the following commands within u-boot:
+
+fatload mmc 0 0x1000000 mtdblock6-NEW.bin
+sf erase 0x6e0000 0x610000
+sf write 0x1000000 0x6e0000 0x610000
+reset
+```
+
+Then write the modified squashfs to NOR flash of your camera:
+
+```
+NA51023> fatload mmc 0 0x1000000 mtdblock6-NEW.bin
+reading mtdblock6-NEW.bin
+6352896 bytes read in 0 ms
+NA51023> sf erase 0x6e0000 0x610000
+SF: 6356992 bytes @ 0x6e0000 Erased: OK
+NA51023> sf write 0x1000000 0x6e0000 0x610000
+SF: 6356992 bytes @ 0x6e0000 Written: OK
+NA51023> reset
+```
+
+Enjoy logging in to your camera with SSH.
 
 ### Misc
 

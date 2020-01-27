@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# host_key_path set to /mnt/para/dropbear_rsa_host_key during compile time
+/usr/sbin/dropbear -B -R
+
