@@ -22,9 +22,14 @@ There is a `115200 8-N-1` serial port accessible via `J9`:
 
 ## Firmware
 
-The firmware is based on Novatek's NVT evaluation board SDK (`U-Boot 2014.07`, `kernel 4.1.0` and a Linux base system based on [Buildroot 2015.11.1-00003-gfd1edb1](https://buildroot.org/)). See [U-Boot bootloader](log-u-boot.txt) and [Linux misc](log-linux.txt) logfiles for more details.
+The firmware is based on Novatek's NA51023 NVT evaluation board SDK (`U-Boot 2014.07`,
+`kernel 4.1.0` and a Linux base system based on [Buildroot 2015.11.1-00003-gfd1edb1](https://buildroot.org/)).
+See [U-Boot bootloader](log-u-boot.txt) and [Linux misc](log-linux.txt) logfiles for more details.
 
-There is a [µITRON](https://en.wikipedia.org/wiki/ITRON_project)-compatible [eCos-RTOS](https://en.wikipedia.org/wiki/ECos) running on CPU1 (probably doing the video encoding work), and Linux running on CPU2 (`-D_CPU1_UITRON -D_CPU2_LINUX`).
+There is a [µITRON](https://en.wikipedia.org/wiki/ITRON_project)-compatible
+[eCos-RTOS](https://en.wikipedia.org/wiki/ECos) running on CPU1 (probably doing the video encoding work),
+and Linux running on CPU2 (networking and web frontend application).
+The eCos firmware is stored in binary files `FW98515A.bin FW98515T.bin FW98515A.ext.bin`.
 
 Novatek does not release _any_ information about their products. One can find
 some brief [datasheet of the NT96650](https://dashcamtalk.com/cams/mobius/Novatek%20NT96650.pdf)
@@ -64,15 +69,15 @@ BUILDDATE="Tue Mar 1 18:25:28 CST 2016"
 ### Compile additional software
 
 Download [Buildroot 2015.11.1](https://buildroot.org/downloads/buildroot-2015.11.1.tar.gz)
-(I suggest to choose version 2015.11.1 as Novatek's SDK uses this as well).
+(Novatek's SDK uses this version and newer Buildroot releases use a newer/incompatible uClibc).
 Exec `make menuconfig`, select `Target options`, change `Target Architecture`
 to `MIPS (little endian)` and `Target Architecture Variant` to `mips 32`.
 Select `Target packages` in the main menu and select packages as needed.
 Exit and `make`.
 
-### Extend rootfs / add SSH daemon
+### Modify rootfs / add SSH daemon
 
-Use `repack-reolink-rootfs.sh` to repack the rootfs on flash partition 6.
+Use `repack-reolink-rootfs.sh` to repack the (read-only) rootfs on flash partition 6.
 Dump squashfs with `cat /dev/mtdblock6 > /mnt/sda/mtdblock6.bin` to SD card
 first. Then execute the script on your Linux workstation like this:
 
@@ -129,10 +134,17 @@ SF: 6356992 bytes @ 0x6e0000 Written: OK
 NA51023> reset
 ```
 
+There's something broken within dropbear's key initial exchange (causing a segfault). You
+might need to login using `ssh -oHostKeyAlgorithms=ssh-rsa root@ipaddress`
+for the very first time. I don't have time to debug this odd behaviour.
+
 Enjoy logging in to your camera with SSH.
 
 ### Misc
 
-With `get_sysinfo` debug information about the various video streams
+- With `get_sysinfo` debug information about the various video streams
 is displayed, see [sample output](log-get_sysinfo.txt).
+
+- The camera uses [nginx](http://nginx.org/) as web server. The RTMP stream is
+orchestrated by the [rtmp-module](https://github.com/arut/nginx-rtmp-module).
 

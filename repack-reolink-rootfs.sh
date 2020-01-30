@@ -67,6 +67,7 @@ unsquashfs -s $MTDFILE
 unsquashfs -s $OUTFILE
 ls -l $MTDFILE $OUTFILE
 
+# align to erase size: "GD25Q127C with page size 256 Bytes, erase size 64 KiB, total 16 MiB"
 OUTFILEASIZE=0x$(printf "%x" $((65536 * $(($(($(stat -c "%s" $OUTFILE) + 65535)) / 65536)))))
 echo "$OUTFILE file size (65536-byte aligned): $OUTFILEASIZE"   
 
