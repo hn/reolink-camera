@@ -6,7 +6,8 @@ The hardware of the camera is quite good (well designed metal casing, multi-laye
 The software is bad (requiring Flash Player is not acceptable under any circumstances), but not as bad as other cameras I've seen before.
 The camera [offers](https://reolink.com/wp-content/uploads/2017/01/Reolink-CGI-command-v1.61.pdf)
 [RTMP](https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol) and [RTSP](https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol) video
-streams. The RTSP stream suffers from various problems ("melting" and "smearing").
+streams. The RTSP stream suffers from various problems ("melting" and "smearing")
+when used with non-Reolink video players.
 
 ![Camera casing](reolink-rlc-410-5mp-case.jpg "Reolink RLC-410-5MP case")
 
@@ -37,18 +38,80 @@ and some [discussion and tools at GoPrawn forum](https://www.goprawn.com/forum/n
 
 ### Unpack firmware
 
-Firmware `RLC-410-5MP_448_19061407` is available from Reolink's support website. With [unpack-reolink-firmware.sh](unpack-reolink-firmware.sh) one can download the firmware file and extract the root filesystem:
+Firmware `RLC-410-5MP_448_19061407` is available from Reolink's support website. With [unpack-novatek-firmware.pl](unpack-novatek-firmware.pl) one can download the firmware file and extract the root filesystem:
 
 ```
-$ ./unpack-reolink-firmware.sh 
-mkdir: created directory 'RLC-410-5MP_448_19061407'
-URL:https://reolink-storage.s3.amazonaws.com/website/firmware/20190614firmware/RLC-410-5MP_448_19061407.zip [9339002/9339002] -> "RLC-410-5MP_448_19061407.zip" [1]
-RLC-410-5MP_448_19061407.zip: OK
+$ wget -q https://reolink-storage.s3.amazonaws.com/website/firmware/20190614firmware/RLC-410-5MP_448_19061407.zip
+$ unzip RLC-410-5MP_448_19061407.zip
 Archive:  RLC-410-5MP_448_19061407.zip
   inflating: IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK.pak  
-1+1 records in
-1+1 records out
-6242304 bytes (6.2 MB, 6.0 MiB) copied, 0.0104995 s, 595 MB/s
+$ md5sum RLC-410-5MP_448_19061407.zip IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK.pak
+e67454a79bcd538fb96d7c8b8a742956  RLC-410-5MP_448_19061407.zip
+39c51f59a94a55e0656644a6a0cfea20  IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK.pak
+$
+$ ./unpack-novatek-firmware.pl -w IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK.pak
+Partition 0    name: loader
+Partition 0 version: v1.0.0.1
+Partition 0  offset:     1552
+Partition 0  length:    32768
+Writing output file 'IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK-partition-0-loader.bin'
+
+Partition 1    name: ext
+Partition 1 version: v1.0.0.1
+Partition 1  offset:    34320
+Partition 1  length:     2856
+Writing output file 'IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK-partition-1-ext.bin'
+
+Partition 2    name: uitron
+Partition 2 version: v1.0.0.1
+Partition 2  offset:    37176
+Partition 2  length:  3200936
+Writing output file 'IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK-partition-2-uitron.bin'
+
+Partition 3    name: uboot
+Partition 3 version: v1.0.0.1
+Partition 3  offset:  3238112
+Partition 3  length:   262664
+Writing output file 'IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK-partition-3-uboot.bin'
+
+Partition 4    name: 
+Partition 4 version: 
+Partition 4  offset:  3500776
+Partition 4  length:        0
+
+Partition 5    name: kernel
+Partition 5 version: v1.0.0.1
+Partition 5  offset:  3500776
+Partition 5  length:  1634625
+Writing output file 'IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK-partition-5-kernel.bin'
+
+Partition 6    name: fs
+Partition 6 version: v1.0.0.1
+Partition 6  offset:  5135401
+Partition 6  length:  6242304
+Writing output file 'IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK-partition-6-fs.bin'
+
+Partition 7    name: 
+Partition 7 version: 
+Partition 7  offset: 11377705
+Partition 7  length:        0
+
+Partition 8    name: 
+Partition 8 version: 
+Partition 8  offset: 11377705
+Partition 8  length:        0
+
+Partition 9    name: 
+Partition 9 version: 
+Partition 9  offset: 11377705
+Partition 9  length:        0
+
+Partition 10    name: 
+Partition 10 version: 
+Partition 10  offset: 11377705
+Partition 10  length:        0
+
+$ unsquashfs -d rootfs/ IPC_51516M5M.448_19061407.RLC-410-5MP.OV05A10.5MP.REOLINK-partition-6-fs.bin
 Parallel unsquashfs: Using 4 processors
 551 inodes (622 blocks) to write
 
@@ -60,8 +123,10 @@ created 135 symlinks
 created 0 devices
 created 0 fifos
 
+$ ls rootfs/
 bin  dev  etc  home  lib  linuxrc  mnt  proc  root  sbin  sys  tmp  usr  var
 
+$ head rootfs/etc/firmware.info 
 SDK_VER="NVT_NT96660_Linux_V0.4.8"
 BUILDDATE="Tue Mar 1 18:25:28 CST 2016"
 ```
