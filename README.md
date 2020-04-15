@@ -13,7 +13,15 @@ when used with non-Reolink video players.
 
 ## Hardware
 
-The camera uses a [Novatek NV98515](http://www.novatek.com.tw/en-global/) SoC (MIPS 24KEc V5.5 architecture) with a [Omnivision OS05A10M](https://www.ovt.com/sensors/OS05A10) image sensor. The firmware is stored on a 16 MiB [GD25Q127C](https://www.gigadevice.com/datasheet/gd25q127c/) [SPI](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface) [NOR flash](https://en.wikipedia.org/wiki/Flash_memory#NOR_flash).
+The camera uses a [Novatek NV98515](http://www.novatek.com.tw/en-global/) SoC (MIPS 24KEc V5.5 architecture)
+with a [Omnivision OS05A10M](https://www.ovt.com/sensors/OS05A10) image sensor. The firmware is stored on
+a 16 MiB [GD25Q127C](https://www.gigadevice.com/datasheet/gd25q127c/)
+[SPI](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface)
+[NOR flash](https://en.wikipedia.org/wiki/Flash_memory#NOR_flash).
+
+There probably exist different hardware versions (image sensors) of this
+camera (`if ${SENSOR} == "CMOS_SC5035M" .. elif .. "CMOS_OV4689M" .. elif .. "CMOS_OS05A10M"` - The OV4689
+ist a 4MP sensor).
 
 ### Serial port
 
@@ -38,7 +46,9 @@ and some [discussion and tools at GoPrawn forum](https://www.goprawn.com/forum/n
 
 ### Unpack firmware
 
-Firmware `RLC-410-5MP_448_19061407` is available from Reolink's support website. With [unpack-novatek-firmware.pl](unpack-novatek-firmware.pl) one can download the firmware file and extract the root filesystem:
+Firmware `RLC-410-5MP_448_19061407` is available from Reolink's support website.
+With [unpack-novatek-firmware.pl](unpack-novatek-firmware.pl) one can download the firmware file
+and extract bootloader, kernel and root filesystem:
 
 ```
 $ wget -q https://reolink-storage.s3.amazonaws.com/website/firmware/20190614firmware/RLC-410-5MP_448_19061407.zip
@@ -212,4 +222,7 @@ is displayed, see [sample output](log-get_sysinfo.txt).
 
 - The camera uses [nginx](http://nginx.org/) as web server. The RTMP stream is
 orchestrated by the [rtmp-module](https://github.com/arut/nginx-rtmp-module).
+
+- One can disable the OSD watermark (without flash interface) with 
+[this small script](api-disable-watermark.sh).
 
