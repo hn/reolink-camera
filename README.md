@@ -13,7 +13,8 @@ when used with non-Reolink video players.
 
 ## Hardware
 
-The camera uses a [Novatek NV98515](http://www.novatek.com.tw/en-global/) SoC (MIPS 24KEc V5.5 architecture)
+The camera uses a [Novatek NV98515](http://www.novatek.com.tw/en-global/) SoC (MIPS 24KEc V5.5
+architecture, dual core with MMU, 640MHz, H.264/265 video encoding, encryption engine)
 with a [Omnivision OS05A10M](https://www.ovt.com/sensors/OS05A10) image sensor. The firmware is stored on
 a 16 MiB [GD25Q127C](https://www.gigadevice.com/datasheet/gd25q127c/)
 [SPI](https://en.wikipedia.org/wiki/Serial_Peripheral_Interface)
@@ -225,4 +226,7 @@ orchestrated by the [rtmp-module](https://github.com/arut/nginx-rtmp-module).
 
 - One can disable the OSD watermark (without flash interface) with 
 [this small script](api-disable-watermark.sh).
+
+- One can find various info about the [NT98515 on Lxnicks's chinese 
+  website](https://lxnick.wordpress.com/tag/nt98515/)
 
