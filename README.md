@@ -216,7 +216,16 @@ for the very first time. I don't have time to debug this odd behaviour.
 
 Enjoy logging in to your camera with SSH.
 
-### Misc
+### Firmware versions
+
+- [647_20031401](https://reolink-storage.s3.amazonaws.com/website/firmware/20200314firmware/RLC-410-5MP_647_20031401.zip),
+  released 2020/03/14, with GUI v1.0.261
+
+- [448_19061407](https://reolink-storage.s3.amazonaws.com/website/firmware/20190614firmware/RLC-410-5MP_448_19061407.zip),
+  released 2019/06/14, with GUI v1.0.242
+
+
+## Misc
 
 - With `get_sysinfo` debug information about the various video streams
 is displayed, see [sample output](log-get_sysinfo.txt).
