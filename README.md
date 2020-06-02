@@ -153,7 +153,7 @@ Exit and `make`.
 
 ### Modify rootfs / add SSH daemon
 
-Use `repack-reolink-rootfs.sh` to repack the (read-only) rootfs on flash partition 6.
+Use [repack-reolink-rootfs.sh](repack-reolink-rootfs.sh) to repack the (read-only) rootfs on flash partition 6.
 Dump squashfs with `cat /dev/mtdblock6 > /mnt/sda/mtdblock6.bin` to SD card
 first. Then execute the script on your Linux workstation like this:
 
@@ -218,11 +218,16 @@ Enjoy logging in to your camera with SSH.
 
 ### Firmware versions
 
-- [647_20031401](https://reolink-storage.s3.amazonaws.com/website/firmware/20200314firmware/RLC-410-5MP_647_20031401.zip),
+- [v3.0.0.20_20052300](https://reolink-storage.s3.amazonaws.com/website/firmware/20200523firmware/RLC-410-5MP_20_20052300.zip),
+  released 2020/05/23, with GUI v1.0.261
+
+- [v2.0.0.647_20031401](https://reolink-storage.s3.amazonaws.com/website/firmware/20200314firmware/RLC-410-5MP_647_20031401.zip),
   released 2020/03/14, with GUI v1.0.261
 
-- [448_19061407](https://reolink-storage.s3.amazonaws.com/website/firmware/20190614firmware/RLC-410-5MP_448_19061407.zip),
+- [v2.0.0.448_19061407](https://reolink-storage.s3.amazonaws.com/website/firmware/20190614firmware/RLC-410-5MP_448_19061407.zip),
   released 2019/06/14, with GUI v1.0.242
+
+- 209_18093004 and probably many older versions for which no download link is known
 
 
 ## Misc
