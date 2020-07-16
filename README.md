@@ -235,6 +235,9 @@ Enjoy logging in to your camera with SSH.
 
 ## Misc
 
+- Reolink is a brand name of the chinese company
+  [Shenzhen Baichuan Security Technology Co., Ltd.](http://www.sz-bcs.com/).
+
 - With `get_sysinfo` debug information about the various video streams
 is displayed, see [sample output](log-get_sysinfo.txt).
 
@@ -245,5 +248,8 @@ orchestrated by the [rtmp-module](https://github.com/arut/nginx-rtmp-module).
 [this small script](api-disable-watermark.sh).
 
 - One can find various info about the [NT98515 on Lxnicks's chinese 
-  website](https://lxnick.wordpress.com/tag/nt98515/)
+  website](https://lxnick.wordpress.com/tag/nt98515/).
+
+- George Hillard has [some very interesting hard- and software findings on
+  the Reolink B800](https://www.thirtythreeforty.net/posts/2020/05/hacking-reolink-cameras-for-fun-and-profit/).
 
