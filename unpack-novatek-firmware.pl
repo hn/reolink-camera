@@ -110,12 +110,12 @@ substr( $binheader, 0, 4 ) eq "\x13\x59\x72\x32" || die("Invalid file magic");
 
 my $btype = substr( $binheader, 8, 4 );
 my $btypenulled = substr( $binheader, 8, 1 ) . chr(0) . substr( $binheader, 10, 2 );
-printf( "Board/File-Type: %-32s\n", unpack( "H*", $btype ) );
+printf( "Board/File-Type: %s\n", unpack( "H*", $btype ) );
 substr( $btype, 1, 1 ) eq "\x24" || die("This script support 0x24-format files only. Remove this check at your own risk");
-printf( "Board/File-Type Null\@pos2: %-32s\n", unpack( "H*", $btypenulled ) );
+printf( "Board/File-Type with 0x00\@pos2: %s\n", unpack( "H*", $btypenulled ) );
 
 my $fcrc = substr( $binheader, 4, 4 );
-printf( "File CRC: %-32s\n", unpack( "H*", $fcrc ) );
+printf( "File CRC: %s\n", unpack( "H*", $fcrc ) );
 
 my $ccrc = crc32calc( 0, $binsectiondata );
 $ccrc = crc32calc( $ccrc, $btypenulled );
@@ -123,7 +123,7 @@ $ccrc = crc32calc( $ccrc, substr( $binheader, 12, 704 ) );
 # partition ToC is not crc-checked, oughhh ...
 
 my $pccrc = pack( "V*", $ccrc );
-printf( "Calc CRC: %-32s\n", unpack( "H*", $pccrc ) );
+printf( "Calc CRC: %s\n", unpack( "H*", $pccrc ) );
 if ( $fcrc ne $pccrc ) {
     print "Warning: File CRC does NOT match computed CRC value!\n";
 } else {
@@ -139,10 +139,10 @@ for ( my $s = 0 ; $s < 11 ; $s++ ) {
     my $soff  = unpack( "V", substr( $binheader, $offset + 56, 4 ) );
     my $slen  = unpack( "V", substr( $binheader, $offset + 60, 4 ) );
 
-    print "Image File Section " . $s . "    name: " . $sname . "\n";
-    print "Image File Section " . $s . " version: " . $sver . "\n";
-    print "Image File Section " . $s . "  offset: " . sprintf( "%8d", $soff ) . "\n";
-    print "Image File Section " . $s . "  length: " . sprintf( "%8d", $slen ) . "\n";
+    printf("Image File Section %2d    name: %s\n", $s, $sname );
+    printf("Image File Section %2d version: %s\n" , $s, $sver );
+    printf("Image File Section %2d  offset: %8d\n", $s, $soff );
+    printf("Image File Section %2d  length: %8d\n", $s, $slen );
 
     if ( $write && $slen > 0 ) {
         my $basename = $f;
@@ -171,11 +171,11 @@ for ( my $p = 0 ; $p < 11 ; $p++ ) {
     my $punknown = unpack( "l", substr( $binheader, $offset + 68, 4 ));
     my $psize = unpack( "l", substr( $binheader, $offset + 72, 4 ));
 
-    print "Partition " . $p . "    name: " . $pname . "\n";
-    print "Partition " . $p . "     dst: " . $pdst . "\n";
-    print "Partition " . $p . "  offset: " . sprintf( "%8d", $poff ) . "\n";
-    print "Partition " . $p . " unknown: " . sprintf( "%8d", $punknown ) . "\n";
-    print "Partition " . $p . "    size: " . sprintf( "%8d", $psize ) . "\n";
+    printf("Partition %2d    name: %s\n", $p, $pname );
+    printf("Partition %2d     dst: %s\n", $p, $pdst );
+    printf("Partition %2d  offset: %9d\n", $p, $poff );
+    printf("Partition %2d unknown: %9d\n", $p, $punknown );
+    printf("Partition %2d    size: %9d\n", $p, $psize );
 
     print "\n";
 
