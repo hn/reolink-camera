@@ -45,6 +45,12 @@ Novatek does not release _any_ information about their products. One can find
 some brief [datasheet of the NT96650](https://dashcamtalk.com/cams/mobius/Novatek%20NT96650.pdf)
 and some [discussion and tools at GoPrawn forum](https://www.goprawn.com/forum/novatek-cams).
 
+### Reolink Camera API
+
+One can disable the OSD watermark (without flash interface) with [this small script](api-disable-watermark.sh).
+
+Alano Terblanche has more complete [Python API implementation](https://github.com/Benehiko/ReolinkCameraAPI).
+
 ### Unpack firmware
 
 Firmware `RLC-410-5MP_448_19061407` is available from Reolink's support website.
@@ -244,8 +250,8 @@ is displayed, see [sample output](log-get_sysinfo.txt).
 - The camera uses [nginx](http://nginx.org/) as web server. The RTMP stream is
 orchestrated by the [rtmp-module](https://github.com/arut/nginx-rtmp-module).
 
-- One can disable the OSD watermark (without flash interface) with 
-[this small script](api-disable-watermark.sh).
+- The [LIVE555 Media Server](http://www.live555.com/mediaServer/) is used
+  for RTSP streaming.
 
 - One can find various info about the [NT98515 on Lxnicks's chinese 
   website](https://lxnick.wordpress.com/tag/nt98515/).
