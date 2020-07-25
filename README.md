@@ -224,6 +224,10 @@ Enjoy logging in to your camera with SSH.
 
 ### Firmware versions
 
+- [v3.0.0.65_20071000](https://reolink-storage.s3.amazonaws.com/website/firmware/20200721firmware/RLC-410-5MP_65_20071000.zip),
+  released 2020/07/10, with GUI v1.0.261.  
+  RTSP encoder `liblive555 Version[NT98513]:2019-09-02`.
+
 - [v3.0.0.20_20052300](https://reolink-storage.s3.amazonaws.com/website/firmware/20200523firmware/RLC-410-5MP_20_20052300.zip),
   released 2020/05/23, with GUI v1.0.261.  
   The monolithic `dvr` app has been replaced by smaller apps (`netserver`, `onvif`, `rtsp`, ...). RTSP encoder `liblive555 Version[NT98513]:2019-09-02`.
