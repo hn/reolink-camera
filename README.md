@@ -205,6 +205,8 @@ reset
 Then write the modified squashfs to NOR flash of your camera as shown in
 script output:
 
+:warning: Warning: Starting firmware version `v3.0.0.65_20071000` the flash layout has changed, you have to change start offset from `0x6e0000` to `0x620000`. Double-check first, otherwise you'll brick your device!
+
 ```
 NA51023> fatload mmc 0 0x1000000 mtdblock6-NEW.bin
 reading mtdblock6-NEW.bin
