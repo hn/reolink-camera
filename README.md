@@ -37,9 +37,15 @@ The firmware is based on Novatek's NA51023 NVT evaluation board SDK (`U-Boot 201
 See [U-Boot bootloader](log-u-boot.txt) and [Linux misc](log-linux.txt) logfiles for more details.
 
 There is a [µITRON](https://en.wikipedia.org/wiki/ITRON_project)-compatible
-[eCos-RTOS](https://en.wikipedia.org/wiki/ECos) running on CPU1 (probably doing the video encoding work),
+[eCos-RTOS](https://en.wikipedia.org/wiki/ECos) running on CPU1 (image capturing and video encoding),
 and Linux running on CPU2 (networking and web frontend application).
 The eCos firmware is stored in binary files `FW98515A.bin FW98515T.bin FW98515A.ext.bin`.
+Communication between the two cores is orchestrated by the `NVT IPC` framework and shared memory.
+
+Boot process: CPU1 runs the `loader` image from partition 0 and initializes
+basic I/O and RAM. CPU1 reads uboot image from partition 3 and triggers CPU2
+to execute the uboot boot process. When the linux kernel image has been
+started, CPU2 signals CPU1 to start image capturing.
 
 Novatek does not release _any_ information about their products. One can find
 some brief [datasheet of the NT96650](https://dashcamtalk.com/cams/mobius/Novatek%20NT96650.pdf)
@@ -228,7 +234,8 @@ Enjoy logging in to your camera with SSH.
 
 - [v3.0.0.65_20071000](https://reolink-storage.s3.amazonaws.com/website/firmware/20200721firmware/RLC-410-5MP_65_20071000.zip),
   released 2020/07/10, with GUI v1.0.261.  
-  RTSP encoder `liblive555 Version[NT98513]:2019-09-02`.
+  RTSP encoder `liblive555 Version[NT98513]:2019-09-02`. Flash partition layout has been changed (linux rootfs start offset
+  relocated from `0x6e0000` to `0x620000`, linux kernel partition size has been decreased accordingly).
 
 - [v3.0.0.20_20052300](https://reolink-storage.s3.amazonaws.com/website/firmware/20200523firmware/RLC-410-5MP_20_20052300.zip),
   released 2020/05/23, with GUI v1.0.261.  
