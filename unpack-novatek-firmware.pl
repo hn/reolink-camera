@@ -24,6 +24,8 @@
 use strict;
 
 my $write = 0;
+my $inject = 0;
+my $newimage = "";
 
 my @crc32poly = (
     0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f,
@@ -80,8 +82,30 @@ sub crc32calc {
     return $crc;
 }
 
+sub newfilename {
+    # we need to create a new filename as the update process reads the version from the filename, so cheap
+    my ( $oldfilename ) = @_;
+    #print("Oldfilename is ".$oldfilename);
+    $oldfilename =~ /(.*\.\d{2}_)(\d{8})(\..*)/;
+    my $version = $2;
+    #print("version is ".$version);
+    $version += 1;
+    #print("version is ".$version);
+    my $newname = $1.$version.$3;
+    #print("Newname is ".$newname);
+    return $newname;
+}
+
 if ( $ARGV[0] eq "-w" ) {
     $write++;
+    shift();
+}
+
+if ( $ARGV[0] eq "-i" ) {
+    # if -i <newimage> <pakfile> is specified, we are going to inject the file specified as <newimage> into the file
+    $inject++;
+    shift();
+    $newimage = $ARGV[0];
     shift();
 }
 
@@ -89,6 +113,15 @@ my $f = $ARGV[0];
 die() if ( !$f );
 open( IF, "<$f" ) || die( "Unable to open input file '$f': " . $! );
 binmode(IF);
+
+my $newname = "";
+if ($inject){
+    $newname = newfilename($f);
+    print("Going to inject the file '".$newimage."' into the image '".$f."' \n") ;
+    print(" the output file will be named '".$newname."' \n");
+    print(" cancel now if this is not desired or press enter");
+    <STDIN>;
+}
 
 my $binheader;
 my $binsectiondata;
@@ -143,6 +176,46 @@ for ( my $s = 0 ; $s < 11 ; $s++ ) {
     printf("Image File Section %2d version: %s\n" , $s, $sver );
     printf("Image File Section %2d  offset: %8d\n", $s, $soff );
     printf("Image File Section %2d  length: %8d\n", $s, $slen );
+
+    if ($inject and $sname eq"fs"){
+        print("this is the filesystem part that we want to replace\n");
+        open( NF, "<$newimage" ) || die( "Unable to open input file '$newimage': " . $! );
+        binmode(NF);
+        my $newimagedata;
+        my $len_newimage = read( NF, $newimagedata, ( -s $newimage ) ) ;
+        close (NF);
+        my $len_newimage_packed  = pack( "V", $len_newimage );
+        print(" read ".$len_newimage." bytes from newimage '".$newimage."' to var newimagedata\n");
+        printf(" the old fs image had ".$slen." (0x%X)(".unpack( "H*", pack( "V", $slen ) ).") bytes, the new one has ".$len_newimage." (0x%X)(".unpack( "H*", $len_newimage_packed ).") bytes\n",$slen,$len_newimage);
+
+        # the new firmware file will have the following structure
+        #1. binheader
+        #2. old contents until the fs part
+        #3. the new image file
+        # first build the new binheader, still the with wrong crc:
+        my $new_binheader = $binheader;
+        # write the new size of the fs image to the new header
+        substr( $new_binheader, $offset + 60, 4 ) = $len_newimage_packed;
+
+        # now lets build the payload
+        printf(" Combining the first 0x%X bytes from the original image\n",$soff-1552);
+        print(" with the contents of the new input file\n");
+        my $payload = substr( $binsectiondata, 0, $soff-1552 ) . $newimagedata;
+
+        # now we need to calculate the crc:
+        my $newcrc = crc32calc( 0, $payload );
+        $newcrc = crc32calc( $newcrc, $btypenulled );
+        $newcrc = crc32calc( $newcrc, substr( $new_binheader, 12, 704 ) );
+        my $newpccrc = pack( "V*", $newcrc );
+        printf( "the new CRC would be: %s\n", unpack( "H*", $newpccrc ) );
+
+        print "Writing output file '" . $newname . "'\n";
+        open( NI, ">$newname" ) || die( "Unable to open output file '$newname': " . $! );
+        binmode(NI);
+        print NI $new_binheader . $payload;
+        close(NI);
+    }
+
 
     if ( $write && $slen > 0 ) {
         my $basename = $f;

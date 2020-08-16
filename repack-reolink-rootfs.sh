@@ -33,6 +33,7 @@
 
 MTDFILE=mtdblock6.bin		# dump on camera with 'cat /dev/mtdblock6 > /mnt/sda/mtdblock6.bin'
 CONTRIB=./contrib
+MMCSCRIPT=./mmcscript
 OUTDIR=rootfs
 OUTFILE=mtdblock6-NEW.bin
 FRSAVE=fakerootsave.$MTDFILE
@@ -49,15 +50,17 @@ echo "DES-encrypted password is: $CPASS"
 fakeroot -s $FRSAVE unsquashfs -d $OUTDIR $MTDFILE
 fakeroot -i $FRSAVE -s $FRSAVE cp -v $CONTRIB/dropbear $OUTDIR/usr/sbin/
 fakeroot -i $FRSAVE -s $FRSAVE cp -v $CONTRIB/S99dropbear $OUTDIR/etc/init.d/
-fakeroot -i $FRSAVE -s $FRSAVE chown -v --reference=$OUTDIR/etc $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear
+fakeroot -i $FRSAVE -s $FRSAVE cp -v $MMCSCRIPT/S99zz_ssd_script $OUTDIR/etc/init.d/
+fakeroot -i $FRSAVE -s $FRSAVE cp -v $MMCSCRIPT/ssd_caller_script.sh $OUTDIR/bin
+fakeroot -i $FRSAVE -s $FRSAVE chown -v --reference=$OUTDIR/etc $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear $OUTDIR/etc/init.d/S99zz_ssd_script $OUTDIR/bin/ssd_caller_script.sh
 for LINK in dbclient dropbearconvert dropbearkey scp ssh; do
 	fakeroot -i $FRSAVE -s $FRSAVE ln -sv ../sbin/dropbear $OUTDIR/usr/bin/$LINK
 	fakeroot -i $FRSAVE -s $FRSAVE chown -v -h --reference=$OUTDIR/etc $OUTDIR/usr/bin/$LINK
-done
-fakeroot -i $FRSAVE -s $FRSAVE chmod 0777 $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear
+done 
+fakeroot -i $FRSAVE -s $FRSAVE chmod 0777 $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear $OUTDIR/etc/init.d/S99zz_ssd_script $OUTDIR/bin/ssd_caller_script.sh
 
 # remove comment to set root password
-#fakeroot -i $FRSAVE -s $FRSAVE perl -i -p -e "s/^(root:)/\${1}${CPASS}/p" $OUTDIR/etc/passwd
+fakeroot -i $FRSAVE -s $FRSAVE perl -i -p -e "s/^(root:)/\${1}${CPASS}/p" $OUTDIR/etc/passwd
 
 fakeroot -i $FRSAVE ls -l $OUTDIR/etc/init.d $OUTDIR/usr/sbin $OUTDIR/etc/passwd
 
@@ -73,9 +76,12 @@ echo "$OUTFILE file size (65536-byte aligned): $OUTFILEASIZE"
 
 echo "Execute the following commands within u-boot:"
 echo
+echo "WARNING: Starting firmware version v3.0.0.65_20071000 the flash layout has changed. If you use an older"
+echo "firmware you have to change the start offset from 0x620000 to 0x6e0000 !"
+echo
 echo "fatload mmc 0 0x1000000 mtdblock6-NEW.bin"
-echo "sf erase 0x6e0000 $OUTFILEASIZE"
-echo "sf write 0x1000000 0x6e0000 $OUTFILEASIZE"
+echo "sf erase 0x620000 $OUTFILEASIZE"
+echo "sf write 0x1000000 0x620000 $OUTFILEASIZE"
 echo "reset"
 
 echo
