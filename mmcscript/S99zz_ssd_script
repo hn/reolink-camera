@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# start a script from the ssd card, so we are flexible and can add new code changes during runtime
+# we need the environment variables here, as these are not defined when this script stats
+export LD_LIBRARY_PATH='/lib:/usr/local/lib:/usr/lib:/mnt/app'
+export PATH='/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/bin:/sbin'
+export SHELL='/bin/sh'
+
+echo "Trying to start /mnt/sda/ssd_script.sh through /bin/ssd_caller_script.sh"
+/bin/ssd_caller_script.sh & 

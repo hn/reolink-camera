@@ -228,6 +228,45 @@ There's something broken within dropbear's key initial exchange (causing a segfa
 might need to login using `ssh -oHostKeyAlgorithms=ssh-rsa root@ipaddress`
 for the very first time. I don't have time to debug this odd behaviour.
 
+### Create new firmware update file with the modified rootfs
+It is possible to now create a new firmware image file with this new rootfs which can be uploaded to the camera using the UI.
+A known issue is that this only works if the original firmware image file has  new version designation thet the one running on the camera. 
+I have not been able to _reflash_ an image file using the UI, and the updater will refuse to flash the same version again.
+ 
+With [unpack-novatek-firmware.pl](unpack-novatek-firmware.pl) one can now inject the new rootfs image file into a copy of the original 
+firware update (.pak) file:
+
+``./unpack-novatek-firmware.pl -i mtdblock6-NEW.bin IPC_51516M5M.65_20071000.RLC-410-5MP.OV05A10.5MP.REOLINK.pak``
+
+The `-i` parameter takes the filename of the modified rootfs image, here `mtdblock6-NEW.bin`. The specify the original firmware (pak) file. 
+A new filename will be automartically generated, as the updater on these cameras (also) parses the filename to identify the version of 
+the image.
+Example output:
+```
+...
+Going to inject the file 'mtdblock6-NEW.bin' into the image 'IPC_51516M5M.65_20071000.RLC-410-5MP.OV05A10.5MP.REOLINK.pak'
+ the output file will be named 'IPC_51516M5M.65_20071001.RLC-410-5MP.OV05A10.5MP.REOLINK.pak'
+ cancel now if this is not desired or press enter
+
+...
+
+Image File Section  6    name: fs
+Image File Section  6 version: v1.0.0.1
+Image File Section  6  offset:  5164017
+Image File Section  6  length:  7512064
+this is the filesystem part that we want to replace
+ read 7077888 bytes from newimage 'mtdblock6-NEW.bin' to var newimagedata
+ the old fs image had 7512064 (0x72A000)(00a07200) bytes, the new one has 7077888 (0x6
+C0000)(00006c00) bytes
+ Combining the first 0x4EC5E1 bytes from the original image
+ with the contents of the new input file
+the new CRC would be: 1ff31200
+Writing output file 'IPC_51516M5M.65_20071001.RLC-410-5MP.OV05A10.5MP.REOLINK.pak'
+
+...
+
+```
+
 Enjoy logging in to your camera with SSH.
 
 ### Firmware versions
