@@ -49,12 +49,13 @@ echo "DES-encrypted password is: $CPASS"
 fakeroot -s $FRSAVE unsquashfs -d $OUTDIR $MTDFILE
 fakeroot -i $FRSAVE -s $FRSAVE cp -v $CONTRIB/dropbear $OUTDIR/usr/sbin/
 fakeroot -i $FRSAVE -s $FRSAVE cp -v $CONTRIB/S99dropbear $OUTDIR/etc/init.d/
-fakeroot -i $FRSAVE -s $FRSAVE chown -v --reference=$OUTDIR/etc $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear
+fakeroot -i $FRSAVE -s $FRSAVE cp -v $CONTRIB/S99sdcardautorun $OUTDIR/etc/init.d/
+fakeroot -i $FRSAVE -s $FRSAVE chown -v --reference=$OUTDIR/etc $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear $OUTDIR/etc/init.d/S99sdcardautorun
 for LINK in dbclient dropbearconvert dropbearkey scp ssh; do
 	fakeroot -i $FRSAVE -s $FRSAVE ln -sv ../sbin/dropbear $OUTDIR/usr/bin/$LINK
 	fakeroot -i $FRSAVE -s $FRSAVE chown -v -h --reference=$OUTDIR/etc $OUTDIR/usr/bin/$LINK
 done
-fakeroot -i $FRSAVE -s $FRSAVE chmod 0777 $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear
+fakeroot -i $FRSAVE -s $FRSAVE chmod 0777 $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear $OUTDIR/etc/init.d/S99sdcardautorun
 
 # remove comment to set root password
 #fakeroot -i $FRSAVE -s $FRSAVE perl -i -p -e "s/^(root:)/\${1}${CPASS}/p" $OUTDIR/etc/passwd

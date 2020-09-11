@@ -1,0 +1,23 @@
+#!/bin/sh
+
+sdcardautorun() {
+	for WAIT in $(seq 1 20); do
+		echo "Checking SD card autorun script ($WAIT)."
+		if [ -x /mnt/sda/autorun.sh ]; then
+			echo "Starting SD card autorun script:"
+			env -i \
+			LD_LIBRARY_PATH='/lib:/usr/local/lib:/usr/lib:/mnt/app' \
+			PATH='/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:/bin:/sbin' \
+			HOME='/root' \
+			SHELL='/bin/sh' \
+			/mnt/sda/autorun.sh &
+			exit
+		fi
+		sleep $WAIT
+	done
+	echo "No SD card autorun script found, doing nothing."
+}
+
+echo "Starting SD card autorun script."
+sdcardautorun </dev/null &
+

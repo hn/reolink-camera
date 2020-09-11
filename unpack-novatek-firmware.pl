@@ -86,7 +86,7 @@ if ( $ARGV[0] eq "-w" ) {
 }
 
 my $f = $ARGV[0];
-die() if ( !$f );
+die("Usage: $0 [-w] <pak-file>") if ( !$f );
 open( IF, "<$f" ) || die( "Unable to open input file '$f': " . $! );
 binmode(IF);
 
@@ -140,7 +140,7 @@ for ( my $s = 0 ; $s < 11 ; $s++ ) {
     my $slen  = unpack( "V", substr( $binheader, $offset + 60, 4 ) );
 
     printf("Image File Section %2d    name: %s\n", $s, $sname );
-    printf("Image File Section %2d version: %s\n" , $s, $sver );
+    printf("Image File Section %2d version: %s\n", $s, $sver );
     printf("Image File Section %2d  offset: %8d\n", $s, $soff );
     printf("Image File Section %2d  length: %8d\n", $s, $slen );
 
