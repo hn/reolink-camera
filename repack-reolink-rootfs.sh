@@ -47,6 +47,17 @@ CPASS=$(echo $NEWPASS | mkpasswd -m des -s)
 echo "DES-encrypted password is: $CPASS"
 
 fakeroot -s $FRSAVE unsquashfs -d $OUTDIR $MTDFILE
+
+FWYM=$(( $(head -n1 $OUTDIR/mnt/app/version_file | cut -d_ -f2 | cut -b1-4) + 0 ))
+if [ $FWYM -ge 2007 ]; then
+	FLASHOFFSET=0x620000
+elif [ $FWYM -gt 1800 ]; then
+	FLASHOFFSET=0x6e0000
+else
+	echo "Unknown or invalid firmware file version"
+	exit 2
+fi
+
 fakeroot -i $FRSAVE -s $FRSAVE cp -v $CONTRIB/dropbear $OUTDIR/usr/sbin/
 fakeroot -i $FRSAVE -s $FRSAVE cp -v $CONTRIB/S99dropbear $OUTDIR/etc/init.d/
 fakeroot -i $FRSAVE -s $FRSAVE cp -v $CONTRIB/S99sdcardautorun $OUTDIR/etc/init.d/
@@ -75,8 +86,8 @@ echo "$OUTFILE file size (65536-byte aligned): $OUTFILEASIZE"
 echo "Execute the following commands within u-boot:"
 echo
 echo "fatload mmc 0 0x1000000 mtdblock6-NEW.bin"
-echo "sf erase 0x6e0000 $OUTFILEASIZE"
-echo "sf write 0x1000000 0x6e0000 $OUTFILEASIZE"
+echo "sf erase $FLASHOFFSET $OUTFILEASIZE"
+echo "sf write 0x1000000 $FLASHOFFSET $OUTFILEASIZE"
 echo "reset"
 
 echo
