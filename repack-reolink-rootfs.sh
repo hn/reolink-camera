@@ -36,15 +36,12 @@ CONTRIB=./contrib
 OUTDIR=rootfs
 OUTFILE=mtdblock6-NEW.bin
 FRSAVE=fakerootsave.$MTDFILE
-NEWPASS=reolink
+#NEWPASS=reolink		# remove comment to set root password
 
 test -f $CONTRIB/dropbear || exit 1
 
 rm -v $FRSAVE
 rm -vrf $OUTDIR $OUTFILE
-
-CPASS=$(echo $NEWPASS | mkpasswd -m des -s)
-echo "DES-encrypted password is: $CPASS"
 
 fakeroot -s $FRSAVE unsquashfs -d $OUTDIR $MTDFILE
 
@@ -68,8 +65,11 @@ for LINK in dbclient dropbearconvert dropbearkey scp ssh; do
 done
 fakeroot -i $FRSAVE -s $FRSAVE chmod 0777 $OUTDIR/usr/sbin/dropbear $OUTDIR/etc/init.d/S99dropbear $OUTDIR/etc/init.d/S99sdcardautorun
 
-# remove comment to set root password
-#fakeroot -i $FRSAVE -s $FRSAVE perl -i -p -e "s/^(root:)/\${1}${CPASS}/p" $OUTDIR/etc/passwd
+if [ -n "$NEWPASS" ]; then
+	CPASS=$(echo $NEWPASS | mkpasswd -m des -s)
+	echo "DES-encrypted password is: $CPASS"
+	fakeroot -i $FRSAVE -s $FRSAVE perl -i -p -e "s/^(root:)/\${1}${CPASS}/p" $OUTDIR/etc/passwd
+fi
 
 fakeroot -i $FRSAVE ls -l $OUTDIR/etc/init.d $OUTDIR/usr/sbin $OUTDIR/etc/passwd
 
