@@ -232,6 +232,11 @@ Enjoy logging in to your camera with SSH.
 
 ### Firmware versions
 
+- [v3.0.0.116_20103100](https://home-cdn.reolink.us/files/firmware/20201031firmware/RLC-410-5MP_116_20103102.zip),
+  released 2020/10/31, with GUI v1.0.266.  
+  Major GUI Update, no flash player anymore, hoorayy! Many parts of the HTML GUI have been rewritten.
+  Live stream preview without flash player (Uses the [bilibili flv.js](https://github.com/Bilibili/flv.js/) HTML5 player).
+
 - [v3.0.0.65_20071000](https://reolink-storage.s3.amazonaws.com/website/firmware/20200721firmware/RLC-410-5MP_65_20071000.zip),
   released 2020/07/10, with GUI v1.0.261.  
   RTSP encoder `liblive555 Version[NT98513]:2019-09-02`. Flash partition layout has been changed (linux rootfs start offset
