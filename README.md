@@ -3,7 +3,7 @@
 ## Preamble
 The Reolink RLC-410-5MP is a 2560x1920 pixel IP camera with infrared night vision, motion detection and PoE support.
 The hardware of the camera is quite good (well designed metal casing, multi-layer PCB with high soldering quality).
-The software is bad (requiring Flash Player is not acceptable under any circumstances), but not as bad as other cameras I've seen before.
+The software is ~~bad (requiring Flash Player is not acceptable under any circumstances)~~ ok-ish, but not as bad as other cameras I've seen before.
 The camera [offers](https://reolink.com/wp-content/uploads/2017/01/Reolink-CGI-command-v1.61.pdf)
 [RTMP](https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol) and [RTSP](https://en.wikipedia.org/wiki/Real_Time_Streaming_Protocol) video
 streams. The RTSP stream suffers from various problems ("melting" and "smearing")
@@ -231,6 +231,9 @@ for the very first time. I don't have time to debug this odd behaviour.
 Enjoy logging in to your camera with SSH.
 
 ### Firmware versions
+
+- [v3.0.0.136_20121100](https://home-cdn.reolink.us/files/firmware/20201211firmware/RLC-410-5MP_136_20121100.zip),
+  released 2020/12/11, with GUI v1.0.266.  
 
 - [v3.0.0.116_20103100](https://home-cdn.reolink.us/files/firmware/20201031firmware/RLC-410-5MP_116_20103102.zip),
   released 2020/10/31, with GUI v1.0.266.  
