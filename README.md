@@ -260,6 +260,17 @@ Enjoy logging in to your camera with SSH.
 - 209_18093004 and probably many older versions for which no download link is known
 
 
+## Wishlist / Help
+
+- If you find time to reverse engineer the `rtsp` application and figure out
+  how the video stream is internally sourced from the eCos-RTOS, please let
+  me know. One final goal would be to re-implement the `rtsp` application with an
+  up to date live555 library.
+
+- If you have access to the `NA51023` board support package (BSP) with
+  `IPCAM` support, please let me know. The file is probably named
+  `NA51023_BSP_20180223_IPCAM_V1.0.01.tar.bz2` or the like.
+
 ## Misc
 
 - Reolink is a brand name of the chinese company
