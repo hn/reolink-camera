@@ -93,6 +93,7 @@ binmode(IF);
 my $binheader;
 my $binsectiondata;
 
+# For files with 11 sections/partitions:
 # Offset Length Description
 # 0      1552   File header structure (12 + 704 + 836 bytes)
 # 1552   EOF    Section binary blobs
@@ -102,8 +103,11 @@ my $binsectiondata;
 # 12     704    ToC (704 = 11*64 bytes) section name - version - offset - length
 # 716    836    ToC (836 = 11*76 bytes) partition name - dst - offset - ? - size
 
-read( IF, $binheader, 1552 ) == 1552 || die("Invalid input file - no header");
-read( IF, $binsectiondata, ( -s $f ) - 1552 ) > 0 || die("Invalid input file - no section data");
+my $numsp = 11;
+my $hslen = 12 + $numsp * 64 + $numsp * 76;
+
+read( IF, $binheader, $hslen ) == $hslen || die("Invalid input file - no header");
+read( IF, $binsectiondata, ( -s $f ) - $hslen ) > 0 || die("Invalid input file - no section data");
 close (IF);
 
 substr( $binheader, 0, 4 ) eq "\x13\x59\x72\x32" || die("Invalid file magic");
@@ -130,7 +134,7 @@ if ( $fcrc ne $pccrc ) {
     print "File CRC and computed CRC match, everything is ok.\n";
 }
 
-for ( my $s = 0 ; $s < 11 ; $s++ ) {
+for ( my $s = 0 ; $s < $numsp ; $s++ ) {
 
     my $offset = 12 + $s * 64;
 
@@ -153,7 +157,7 @@ for ( my $s = 0 ; $s < 11 ; $s++ ) {
         print "Writing output file '" . $outfile . "'\n";
         open( OF, ">$outfile" ) || die( "Unable to open output file '$f': " . $! );
         binmode(OF);
-        print OF substr( $binsectiondata, $soff - 1552, $slen );
+        print OF substr( $binsectiondata, $soff - $hslen, $slen );
         close(OF);
     }
 
@@ -161,9 +165,9 @@ for ( my $s = 0 ; $s < 11 ; $s++ ) {
 
 }
 
-for ( my $p = 0 ; $p < 11 ; $p++ ) {
+for ( my $p = 0 ; $p < $numsp ; $p++ ) {
 
-    my $offset = 12 + 704 + $p * 76;
+    my $offset = 12 + $numsp * 64 + $p * 76;
 
     my $pname = substr( $binheader,  $offset + 0, 32 ); $pname =~ s/[^[:print:]]//g;
     my $poff = unpack( "l", substr( $binheader, $offset + 32, 4 ));
