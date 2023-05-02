@@ -60,7 +60,7 @@ Alano Terblanche has more complete [Python API implementation](https://github.co
 ### Unpack firmware
 
 Firmware `RLC-410-5MP_448_19061407` is available from Reolink's support website.
-With [unpack-novatek-firmware.pl](unpack-novatek-firmware.pl) one can download the firmware file
+With [unpack-novatek-firmware.pl](unpack-novatek-firmware.pl) (Update: [pakler](https://github.com/vmallet/pakler) probably is a better option) one can download the firmware file
 and extract bootloader, kernel and root filesystem:
 
 ```
@@ -291,3 +291,4 @@ orchestrated by the [rtmp-module](https://github.com/arut/nginx-rtmp-module).
 - George Hillard has [some very interesting hard- and software findings on
   the Reolink B800](https://www.thirtythreeforty.net/posts/2020/05/hacking-reolink-cameras-for-fun-and-profit/).
 
+- Vincent Mallet has [an advanced tool to work with .pak-files](https://github.com/vmallet/pakler).
