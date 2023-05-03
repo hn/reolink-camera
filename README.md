@@ -292,3 +292,5 @@ orchestrated by the [rtmp-module](https://github.com/arut/nginx-rtmp-module).
   the Reolink B800](https://www.thirtythreeforty.net/posts/2020/05/hacking-reolink-cameras-for-fun-and-profit/).
 
 - Vincent Mallet has [an advanced tool to work with .pak-files](https://github.com/vmallet/pakler).
+
+- AT0myks has a comprehensive [archive of Reolink firmware files](https://github.com/AT0myks/reolink-fw-archive).
