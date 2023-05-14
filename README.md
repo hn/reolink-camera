@@ -271,6 +271,9 @@ Enjoy logging in to your camera with SSH.
   `IPCAM` support, please let me know. The file is probably named
   `NA51023_BSP_20180223_IPCAM_V1.0.01.tar.bz2` or the like.
 
+- The [OpenIPC](https://github.com/OpenIPC) project might be a good starting point
+  for an alternative firmware, they have kernel support for other Novatek SoCs and the [OS05A10 image sensor](https://github.com/OpenIPC/firmware/tree/master/general/package/novatek-osdrv-nt9856x/files/sensor/sen_os05a10) seems to be known as well.
+
 ## Misc
 
 - Reolink is a brand name of the chinese company
