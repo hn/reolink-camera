@@ -230,7 +230,13 @@ for the very first time. I don't have time to debug this odd behaviour.
 
 Enjoy logging in to your camera with SSH.
 
-### Firmware versions
+### Firmware versions (Hardware IPC_51516M5M)
+
+:warning: Warning: Newer firmware versions (3.0) disable the web interface and RTMP/RTSP streams.
+Stupidly you have to install the proprietary 'Reolink client' software for Win or Mac [to enable them again](https://support.reolink.com/hc/en-us/articles/360003452893-How-to-Access-Reolink-Cameras-on-Local-Network-via-a-Web-Browser/).
+
+- [v3.0.0.2356_23062000](https://home-cdn.reolink.us/wp-content/uploads/2023/10/071013521696673632.8127.zip?download_name=515_410_5MP_v3002356_23062000.zip),
+  released 2023/06/20, with GUI v1.0.276.2.  
 
 - [v3.0.0.136_20121100](https://home-cdn.reolink.us/files/firmware/20201211firmware/RLC-410-5MP_136_20121100.zip),
   released 2020/12/11, with GUI v1.0.266.  
